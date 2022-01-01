@@ -2,6 +2,12 @@ name: Github Repository Deployment
 
 on:
   workflow_call:
+    inputs:
+      repository:
+        description: 'Maven repository (distribution management) for deploying the artifacts'
+        default: 'github'
+        required: false
+        type: string
     secrets:
       token:
         description: 'Github security token'
@@ -23,7 +29,7 @@ jobs:
       with:
         java-version: 11
         distribution: 'adopt'
-        server-id: github
+        server-id: ${{ inputs.repository }}
         cache: 'maven'
     - name: Deploy
       run: mvn deploy -B -P deployment-github -DskipTests
