@@ -6,6 +6,8 @@ Github workflow files. For CI procedures.
 
 - Maven tests
 - Maven site deployment
+- Maven deployment to Github
+- Maven deployment to OSSRH
 
 ## Usage
 
@@ -17,6 +19,8 @@ jobs:
     name: Tests
     uses: Bernardo-MG/github-workflow/.github/workflows/maven/testing.yml@v1
 ```
+
+For an actual usage of these files check the [Library Maven Archetype][archetype].
 
 ## Collaborate
 
@@ -37,6 +41,7 @@ If you wish to fork or modify the code, visit the [GitHub project page][scm], wh
 
 The project has been released under version 2.0 of the [Apache License][license].
 
+[archetype]: https://github.com/Bernardo-MG/library-maven-archetype
 [issues]: https://github.com/Bernardo-MG/dice-notation-java/issues
 [license]: http://www.apache.org/licenses/LICENSE-2.0
 [scm]: http://github.com/Bernardo-MG/dice-notation-java
