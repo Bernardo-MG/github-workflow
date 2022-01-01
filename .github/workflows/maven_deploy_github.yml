@@ -8,6 +8,11 @@ on:
         default: 'github'
         required: false
         type: string
+      profile:
+        description: 'Deployment profile'
+        default: 'deployment-github'
+        required: false
+        type: string
     secrets:
       token:
         description: 'Github security token'
@@ -32,6 +37,6 @@ jobs:
         server-id: ${{ inputs.repository }}
         cache: 'maven'
     - name: Deploy
-      run: mvn deploy -B -P deployment-github -DskipTests
+      run: mvn deploy -B -P ${{ inputs.profile }} -DskipTests
       env:
         GITHUB_TOKEN: ${{ secrets.token }}
