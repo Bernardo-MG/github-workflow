@@ -12,14 +12,14 @@ on:
         required: true
         type: string
     secrets:
-      DEPLOY_DOCS_SITE:
+      url:
         description: 'URL to deploy the site'
         required: true
-      DEPLOY_DOCS_USER:
-        description: 'User for the site server'
+      username:
+        description: 'Username for deploying'
         required: true
-      DEPLOY_DOCS_PASSWORD:
-        description: 'Password for the site server'
+      password:
+        description: 'Password for deploying'
         required: true
 
 jobs:

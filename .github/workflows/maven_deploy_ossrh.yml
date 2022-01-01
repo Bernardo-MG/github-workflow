@@ -9,16 +9,16 @@ on:
         required: false
         type: string
     secrets:
-      USERNAME:
+      username:
         description: 'Username for deploying'
         required: true
-      PASSWORD:
+      password:
         description: 'Password for deploying'
         required: true
-      GPG_PRIVATE_KEY:
+      gpg-private-key:
         description: 'GPG private key for signing'
         required: true
-      GPG_PASSPHRASE:
+      gpg-passphrase:
         description: 'GPG passphrase for signing'
         required: true
 

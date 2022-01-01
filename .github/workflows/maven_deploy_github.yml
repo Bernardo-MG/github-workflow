@@ -3,7 +3,7 @@ name: Github Repository Deployment
 on:
   workflow_call:
     secrets:
-      GITHUB_TOKEN:
+      token:
         description: 'Github security token'
         required: true
 
@@ -28,4 +28,4 @@ jobs:
     - name: Deploy
       run: mvn deploy -B -P deployment-github -DskipTests
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.token }}
