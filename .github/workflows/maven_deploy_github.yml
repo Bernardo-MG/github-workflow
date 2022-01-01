@@ -1,0 +1,31 @@
+name: Github Repository Deployment
+
+on:
+  workflow_call:
+    secrets:
+      GITHUB_TOKEN:
+        description: 'Github security token'
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy artifacts to Github
+    runs-on: ubuntu-latest
+    permissions: 
+      contents: read
+      packages: write 
+
+    steps:
+    - name: Check-out
+      uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+        distribution: 'adopt'
+        server-id: github
+        cache: 'maven'
+    - name: Deploy
+      run: mvn deploy -B -P deployment-github -DskipTests
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

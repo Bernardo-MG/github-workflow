@@ -1,0 +1,50 @@
+name: OSSRH Repository Deployment
+
+on:
+  workflow_call:
+    inputs:
+      profile:
+        description: 'Deployment profile'
+        default: 'deployment-ossrh'
+        required: false
+        type: string
+    secrets:
+      USERNAME:
+        description: 'Username for deploying'
+        required: true
+      PASSWORD:
+        description: 'Password for deploying'
+        required: true
+      GPG_PRIVATE_KEY:
+        description: 'GPG private key for signing'
+        required: true
+      GPG_PASSPHRASE:
+        description: 'GPG passphrase for signing'
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy artifacts to OSSRH
+    environment: deployment_ossrh
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check-out
+      uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+        distribution: 'adopt'
+        cache: 'maven'
+        server-id: ossrh
+        server-username: MAVEN_USERNAME
+        server-password: MAVEN_PASSWORD
+        gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+        gpg-passphrase: GPG_PASSPHRASE
+    - name: Deploy
+      run: mvn deploy -B -P ${{ inputs.profile }} -DskipTests
+      env:
+        MAVEN_USERNAME: ${{ secrets.USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.PASSWORD }}
+        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
