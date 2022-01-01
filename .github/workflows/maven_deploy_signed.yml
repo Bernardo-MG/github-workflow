@@ -1,8 +1,13 @@
-name: OSSRH Repository Deployment
+name: Signed artifact deployment
 
 on:
   workflow_call:
     inputs:
+      repository:
+        description: 'Maven repository (distribution management) for deploying the artifacts'
+        default: 'ossrh'
+        required: false
+        type: string
       profile:
         description: 'Deployment profile'
         default: 'deployment-ossrh'
@@ -37,14 +42,14 @@ jobs:
         java-version: 11
         distribution: 'adopt'
         cache: 'maven'
-        server-id: ossrh
+        server-id: ${{ inputs.repository }}
         server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD
-        gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+        gpg-private-key: ${{ secrets.gpg-private-key }}
         gpg-passphrase: GPG_PASSPHRASE
     - name: Deploy
       run: mvn deploy -B -P ${{ inputs.profile }} -DskipTests
       env:
-        MAVEN_USERNAME: ${{ secrets.USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.PASSWORD }}
-        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        MAVEN_USERNAME: ${{ secrets.username }}
+        MAVEN_PASSWORD: ${{ secrets.password }}
+        GPG_PASSPHRASE: ${{ secrets.gpg-passphrase }}
