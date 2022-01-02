@@ -3,6 +3,11 @@ name: Signed artifact deployment
 on:
   workflow_call:
     inputs:
+      environment:
+        description: 'Github environment to use'
+        default: 'deployment_site'
+        required: false
+        type: string
       repository:
         description: 'Maven repository (distribution management) for deploying the artifacts'
         default: 'ossrh'
@@ -30,7 +35,7 @@ on:
 jobs:
   deploy:
     name: Deploy
-    environment: deployment_ossrh
+    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
 
     steps:
