@@ -56,5 +56,5 @@ jobs:
       run: mvn deploy -B -P ${{ inputs.profile }} -DskipTests
       env:
         MAVEN_USERNAME: ${{ secrets.username }}
-        MAVEN_PASSWORD: ${{ secrets.password }}
+        MAVEN_CENTRAL_TOKEN: ${{ secrets.password }}
         MAVEN_GPG_PASSPHRASE: ${{ secrets.gpg-passphrase }}
