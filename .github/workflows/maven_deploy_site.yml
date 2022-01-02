@@ -3,6 +3,11 @@ name: Maven site deployment
 on:
   workflow_call:
     inputs:
+      environment:
+        description: 'Github environment to use'
+        default: 'deployment_site'
+        required: false
+        type: string
       branch:
         description: 'Branch on which the site will be deployed'
         required: true
@@ -40,7 +45,7 @@ jobs:
 
   deploy:
     name: Deployment
-    environment: deployment_site
+    environment: ${{ inputs.environment }}
     needs: setup
     if: ${{ needs.setup.outputs.branchName == inputs.branch }}
     runs-on: ubuntu-latest
