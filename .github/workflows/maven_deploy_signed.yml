@@ -54,3 +54,7 @@ jobs:
         gpg-passphrase: gpg-passphrase
     - name: Deploy
       run: mvn deploy -B -P ${{ inputs.profile }} -DskipTests
+      env:
+        MAVEN_USERNAME: ${{ secrets.username }}
+        MAVEN_PASSWORD: ${{ secrets.password }}
+        GPG_PASSPHRASE: ${{ secrets.gpg-passphrase }}
