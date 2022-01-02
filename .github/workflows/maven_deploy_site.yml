@@ -24,7 +24,7 @@ on:
 
 jobs:
   setup:
-    name: Deployment preparation
+    name: Preparation
     outputs:
       branchName: ${{ steps.extract_branch.outputs.branchName }}
     runs-on: ubuntu-latest
@@ -40,6 +40,7 @@ jobs:
 
   deploy:
     name: Deployment
+    environment: deployment_site
     needs: setup
     if: ${{ needs.setup.outputs.branchName == inputs.branch }}
     runs-on: ubuntu-latest
