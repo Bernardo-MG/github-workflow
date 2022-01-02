@@ -1,0 +1,42 @@
+name: Github Repository Deployment
+
+on:
+  workflow_call:
+    inputs:
+      repository:
+        description: 'Maven repository (distribution management) for deploying the artifacts'
+        default: 'github'
+        required: false
+        type: string
+      profile:
+        description: 'Deployment profile'
+        default: 'deployment-github'
+        required: false
+        type: string
+    secrets:
+      token:
+        description: 'Github security token'
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    permissions: 
+      contents: read
+      packages: write 
+
+    steps:
+    - name: Check-out
+      uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+        distribution: 'adopt'
+        server-id: ${{ inputs.repository }}
+        cache: 'maven'
+    - name: Deploy
+      run: mvn deploy -B -P ${{ inputs.profile }} -DskipTests
+      env:
+        GITHUB_TOKEN: ${{ secrets.token }}

@@ -1,0 +1,56 @@
+name: Signed artifact deployment
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Github environment to use'
+        default: 'deployment_site'
+        required: false
+        type: string
+      repository:
+        description: 'Maven repository (distribution management) for deploying the artifacts'
+        default: 'ossrh'
+        required: false
+        type: string
+      profile:
+        description: 'Deployment profile'
+        default: 'deployment-ossrh'
+        required: false
+        type: string
+    secrets:
+      username:
+        description: 'Username for deploying'
+        required: true
+      password:
+        description: 'Password for deploying'
+        required: true
+      gpg-private-key:
+        description: 'GPG private key for signing'
+        required: true
+      gpg-passphrase:
+        description: 'GPG passphrase for signing'
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check-out
+      uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+        distribution: 'adopt'
+        cache: 'maven'
+        server-id: ${{ inputs.repository }}
+        server-username: username
+        server-password: password
+        gpg-private-key: ${{ secrets.gpg-private-key }}
+        gpg-passphrase: gpg-passphrase
+    - name: Deploy
+      run: mvn deploy -B -P ${{ inputs.profile }} -DskipTests
