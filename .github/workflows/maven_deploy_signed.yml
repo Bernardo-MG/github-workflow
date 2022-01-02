@@ -5,7 +5,7 @@ on:
     inputs:
       environment:
         description: 'Github environment to use'
-        default: 'deployment_site'
+        default: 'deployment_ossrh'
         required: false
         type: string
       repository:
