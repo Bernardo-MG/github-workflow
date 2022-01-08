@@ -59,4 +59,4 @@ jobs:
       env:
         MAVEN_USERNAME: ${{ secrets.username }}
         MAVEN_CENTRAL_TOKEN: ${{ secrets.password }}
-        MAVEN_GPG_PASSPHRASE: ${{ secrets.gpg-passphrase }}
+        MAVEN_GPG_PASSPHRASE: ${{ secrets.signature-passphrase }}
