@@ -25,11 +25,11 @@ on:
       password:
         description: 'Password for deploying'
         required: true
-      gpg-private-key:
-        description: 'GPG private key for signing'
+      signature-private-key:
+        description: 'Private key for signing'
         required: true
-      gpg-passphrase:
-        description: 'GPG passphrase for signing'
+      signature-passphrase:
+        description: 'Passphrase for signing'
         required: true
 
 jobs:
@@ -50,8 +50,10 @@ jobs:
         server-id: ${{ inputs.repository }}
         server-username: username
         server-password: password
-        gpg-private-key: ${{ secrets.gpg-private-key }}
-        gpg-passphrase: gpg-passphrase
+        gpg-private-key: ${{ secrets.signature-private-key }}
+        gpg-passphrase: signature-passphrase
+    - name: Build
+      run: mvn clean build -B -P ${{ inputs.profile }} -DskipTests
     - name: Deploy
       run: mvn deploy -B -P ${{ inputs.profile }} -DskipTests
       env:

@@ -36,6 +36,8 @@ jobs:
         distribution: 'adopt'
         server-id: ${{ inputs.repository }}
         cache: 'maven'
+    - name: Build
+      run: mvn clean package -B -P ${{ inputs.profile }} -DskipTests
     - name: Deploy
       run: mvn deploy -B -P ${{ inputs.profile }} -DskipTests
       env:
