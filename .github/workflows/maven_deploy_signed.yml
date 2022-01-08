@@ -5,17 +5,17 @@ on:
     inputs:
       environment:
         description: 'Github environment to use'
-        default: 'deployment_ossrh'
+        default: deployment_ossrh
         required: false
         type: string
       repository:
         description: 'Maven repository (distribution management) for deploying the artifacts'
-        default: 'ossrh'
+        default: ossrh
         required: false
         type: string
       profile:
         description: 'Deployment profile'
-        default: 'deployment-ossrh'
+        default: deployment-ossrh
         required: false
         type: string
     secrets:
@@ -35,7 +35,7 @@ on:
 jobs:
   deploy:
     name: Deploy
-    environment: deployment_ossrh
+    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
 
     steps:
@@ -47,15 +47,15 @@ jobs:
         java-version: 11
         distribution: 'adopt'
         cache: 'maven'
-        server-id: deployment_ossrh
+        server-id: ${{ inputs.repository }}
         server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD
         gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
         gpg-passphrase: GPG_PASSPHRASE
     - name: Build
-      run: mvn clean package -B -P deployment-ossrh -DskipTests
+      run: mvn clean package -B -P ${{ inputs.profile }} -DskipTests
     - name: Deploy
-      run: mvn deploy -B -P deployment-ossrh -DskipTests
+      run: mvn deploy -B -P ${{ inputs.profile }} -DskipTests
       env:
         MAVEN_USERNAME: ${{ secrets.USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.PASSWORD }}
