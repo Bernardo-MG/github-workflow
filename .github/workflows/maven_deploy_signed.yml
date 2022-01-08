@@ -19,16 +19,16 @@ on:
         required: false
         type: string
     secrets:
-      username:
+      USERNAME:
         description: 'Username for deploying'
         required: true
-      password:
+      PASSWORD:
         description: 'Password for deploying'
         required: true
-      signature-private-key:
+      GPG_PRIVATE_KEY:
         description: 'Private key for signing'
         required: true
-      signature-passphrase:
+      GPG_PASSPHRASE:
         description: 'Passphrase for signing'
         required: true
 
@@ -48,15 +48,15 @@ jobs:
         distribution: 'adopt'
         cache: 'maven'
         server-id: ${{ inputs.repository }}
-        server-username: username
-        server-password: password
+        server-username: USERNAME
+        server-password: PASSWORD
         gpg-private-key: ${{ secrets.signature-private-key }}
-        gpg-passphrase: signature-passphrase
+        gpg-passphrase: GPG_PASSPHRASE
     - name: Build
       run: mvn clean package -B -P ${{ inputs.profile }} -DskipTests
     - name: Deploy
       run: mvn deploy -B -P ${{ inputs.profile }} -DskipTests
       env:
-        MAVEN_USERNAME: ${{ secrets.username }}
-        MAVEN_CENTRAL_TOKEN: ${{ secrets.password }}
-        MAVEN_GPG_PASSPHRASE: ${{ secrets.signature-passphrase }}
+        MAVEN_USERNAME: ${{ secrets.USERNAME }}
+        MAVEN_CENTRAL_TOKEN: ${{ secrets.PASSWORD }}
+        MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
