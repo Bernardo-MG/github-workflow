@@ -35,7 +35,7 @@ on:
 jobs:
   deploy:
     name: Deploy
-    environment: ${{ inputs.environment }}
+    environment: deployment_ossrh
     runs-on: ubuntu-latest
 
     steps:
@@ -47,16 +47,16 @@ jobs:
         java-version: 11
         distribution: 'adopt'
         cache: 'maven'
-        server-id: ${{ inputs.repository }}
-        server-username: USERNAME
-        server-password: PASSWORD
+        server-id: deployment_ossrh
+        server-username: MAVEN_USERNAME
+        server-password: MAVEN_PASSWORD
         gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
         gpg-passphrase: GPG_PASSPHRASE
     - name: Build
-      run: mvn clean package -B -P ${{ inputs.profile }} -DskipTests
+      run: mvn clean package -B -P deployment-ossrh -DskipTests
     - name: Deploy
-      run: mvn deploy -B -P ${{ inputs.profile }} -DskipTests
+      run: mvn deploy -B -P deployment-ossrh -DskipTests
       env:
         MAVEN_USERNAME: ${{ secrets.USERNAME }}
-        MAVEN_CENTRAL_TOKEN: ${{ secrets.PASSWORD }}
-        MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        MAVEN_PASSWORD: ${{ secrets.PASSWORD }}
+        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
