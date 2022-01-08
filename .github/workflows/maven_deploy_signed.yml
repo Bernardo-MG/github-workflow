@@ -19,16 +19,16 @@ on:
         required: false
         type: string
     secrets:
-      USERNAME:
+      username:
         description: 'Username for deploying'
         required: true
-      PASSWORD:
+      password:
         description: 'Password for deploying'
         required: true
-      GPG_PRIVATE_KEY:
+      gpg-private-key:
         description: 'Private key for signing'
         required: true
-      GPG_PASSPHRASE:
+      gpg-passphrase:
         description: 'Passphrase for signing'
         required: true
 
@@ -50,13 +50,13 @@ jobs:
         server-id: ${{ inputs.repository }}
         server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD
-        gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+        gpg-private-key: ${{ secrets.gpg-private-key }}
         gpg-passphrase: GPG_PASSPHRASE
     - name: Build
       run: mvn clean package -B -P ${{ inputs.profile }} -DskipTests
     - name: Deploy
       run: mvn deploy -B -P ${{ inputs.profile }} -DskipTests
       env:
-        MAVEN_USERNAME: ${{ secrets.USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.PASSWORD }}
-        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        MAVEN_USERNAME: ${{ secrets.username }}
+        MAVEN_PASSWORD: ${{ secrets.password }}
+        GPG_PASSPHRASE: ${{ secrets.gpg-passphrase }}
