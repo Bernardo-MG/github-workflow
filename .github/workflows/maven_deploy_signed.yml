@@ -50,7 +50,7 @@ jobs:
         server-id: ${{ inputs.repository }}
         server-username: USERNAME
         server-password: PASSWORD
-        gpg-private-key: ${{ secrets.signature-private-key }}
+        gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
         gpg-passphrase: GPG_PASSPHRASE
     - name: Build
       run: mvn clean package -B -P ${{ inputs.profile }} -DskipTests
