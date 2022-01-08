@@ -53,7 +53,7 @@ jobs:
         gpg-private-key: ${{ secrets.signature-private-key }}
         gpg-passphrase: signature-passphrase
     - name: Build
-      run: mvn clean build -B -P ${{ inputs.profile }} -DskipTests
+      run: mvn clean package -B -P ${{ inputs.profile }} -DskipTests
     - name: Deploy
       run: mvn deploy -B -P ${{ inputs.profile }} -DskipTests
       env:
