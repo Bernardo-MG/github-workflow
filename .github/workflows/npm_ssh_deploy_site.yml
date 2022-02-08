@@ -1,0 +1,71 @@
+name: NPM site deployment
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Github environment to use'
+        default: 'deployment_site'
+        required: false
+        type: string
+      branch:
+        description: 'Branch on which the site will be deployed'
+        required: true
+        type: string
+      host:
+        description: 'Host where the site will be deployed'
+        required: true
+        type: string
+    secrets:
+      port:
+        description: 'Port to deploy the site'
+        required: true
+      host:
+        description: 'Host to deploy the site'
+        required: true
+      path:
+        description: 'Path to deploy the site'
+        required: true
+      username:
+        description: 'Username for deploying'
+        required: true
+      password:
+        description: 'Password for deploying'
+        required: true
+
+jobs:
+  setup:
+    name: Preparation
+    outputs:
+      branchName: ${{ steps.extract_branch.outputs.branchName }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install sshpass
+      run: sudo apt-get install sshpass
+    - name: Extract branch name
+      uses: bernardo-mg/extract-branch-name-action@v1
+      id: extract_branch
+
+  deploy:
+    name: Deployment
+    environment: ${{ inputs.environment }}
+    needs: setup
+    if: ${{ needs.setup.outputs.branchName == inputs.branch }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check-out
+      uses: actions/checkout@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16
+    - name: Install dependencies
+      run: npm ci
+    - name: Build page
+      run: npm run copy-all
+    - name: Deploy docs
+      run: |
+        cd src
+        sshpass -p ${{ secrets.password }} scp -o 'StrictHostKeyChecking no' -P ${{ secrets.port }} -r ./* ${{ secrets.username }}'@'${{ secrets.host }}':'${{ secrets.path }};
