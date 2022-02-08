@@ -12,10 +12,6 @@ on:
         description: 'Branch on which the site will be deployed'
         required: true
         type: string
-      host:
-        description: 'Host where the site will be deployed'
-        required: true
-        type: string
     secrets:
       port:
         description: 'Port to deploy the site'
