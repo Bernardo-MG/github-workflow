@@ -5,7 +5,7 @@ on:
     inputs:
       environment:
         description: 'Github environment to use'
-        default: deployment_pypi
+        default: 'deployment_pypi'
         required: false
         type: string
     secrets:
