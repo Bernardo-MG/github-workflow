@@ -8,6 +8,10 @@ Github workflow files. For CI procedures.
 - Maven site deployment
 - Maven deployment to Github
 - Maven deployment to OSSRH
+- Python tests
+- Python site deployment
+- Python deployment to Pypi
+- NPM site deployment
 
 ## Usage
 
