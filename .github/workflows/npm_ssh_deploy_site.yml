@@ -64,13 +64,12 @@ jobs:
       run: npm ci
     - name: Build page
       run: npm run copy-all
-    - name: Move to deployment folder
-      run: cd ./src
     - name: Deploy docs
-      uses: bernardo-mg/ssh-deployment-action@develop
-      with:
-        username: ${{ secrets.username }}
-        password: ${{ secrets.password }}
-        host: ${{ secrets.host }}
-        port: ${{ secrets.port }}
-        path: ${{ secrets.path }}
+      uses: easingthemes/ssh-deploy@main
+      env:
+        SOURCE: "src/"
+        REMOTE_HOST: ${{ secrets.host }}
+        REMOTE_PORT : ${{ secrets.port }}
+        TARGET: ${{ secrets.path }}
+        REMOTE_USER: ${{ secrets.username }}
+        SSH_PRIVATE_KEY: ${{ secrets.password }}
