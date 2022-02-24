@@ -37,10 +37,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Register SSH host
-      uses: bernardo-mg/ssh-host-register-action@v1
-      with:
-        host: ${{ secrets.host }}
+    - name: Install sshpass
+      run: sudo apt-get install sshpass
     - name: Extract branch name
       uses: bernardo-mg/extract-branch-name-action@v1
       id: extract_branch
