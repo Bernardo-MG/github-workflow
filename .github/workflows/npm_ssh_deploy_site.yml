@@ -64,7 +64,13 @@ jobs:
       run: npm ci
     - name: Build page
       run: npm run copy-all
+    - name: Move to deployment folder
+      run: cd ./src
     - name: Deploy docs
-      run: |
-        cd src
-        sshpass -p ${{ secrets.password }} scp -o 'StrictHostKeyChecking no' -P ${{ secrets.port }} -r ./* ${{ secrets.username }}'@'${{ secrets.host }}':'${{ secrets.path }};
+      uses: bernardo-mg/ssh-deployment-action@develop
+      with:
+        username: ${{ secrets.username }}
+        password: ${{ secrets.password }}
+        host: ${{ secrets.host }}
+        port: ${{ secrets.port }}
+        path: ${{ secrets.path }}

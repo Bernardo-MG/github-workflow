@@ -67,7 +67,13 @@ jobs:
       run: python setup.py test -p docs
     - name: Build docs
       run: python setup.py build_docs
-    - name: Deploy release docs
-      run: |
-        cd ./build/sphinx/html
-        sshpass -p "${{ secrets.password }}" scp -o 'StrictHostKeyChecking no' -P "${{ secrets.port }}" -r ./* "${{ secrets.username }}@${{ inputs.host }}:${{ secrets.path }}";
+    - name: Move to deployment folder
+      run: cd ./build/sphinx/html
+    - name: Deploy docs
+      uses: bernardo-mg/ssh-deployment-action@develop
+      with:
+        username: ${{ secrets.username }}
+        password: ${{ secrets.password }}
+        host: ${{ secrets.host }}
+        port: ${{ secrets.port }}
+        path: ${{ secrets.path }}
