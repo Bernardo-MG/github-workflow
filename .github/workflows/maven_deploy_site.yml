@@ -67,6 +67,6 @@ jobs:
         username: ${{ secrets.username }}
         password: ${{ secrets.password }}
     - name: Generate docs
-      run: mvn verify site -B
+      run: mvn verify site -B -P deployment-site
     - name: Deploy docs
       run: mvn site:deploy -B -P deployment-site -DskipTests --settings site_settings.xml
