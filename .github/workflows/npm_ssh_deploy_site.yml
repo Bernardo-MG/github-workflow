@@ -40,8 +40,8 @@ jobs:
     - name: Install sshpass
       run: sudo apt-get install sshpass
     - name: Extract branch name
-      uses: bernardo-mg/extract-branch-name-action@v1
       id: extract_branch
+      uses: bernardo-mg/extract-branch-name-action@v1
 
   deploy:
     name: Deployment
