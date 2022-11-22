@@ -40,8 +40,8 @@ jobs:
     - name: Install sshpass
       run: sudo apt-get install sshpass
     - name: Extract branch name
-      uses: bernardo-mg/extract-branch-name-action@v1
       id: extract_branch
+      uses: bernardo-mg/extract-branch-name-action@v1
 
   deploy:
     name: Deployment
@@ -54,7 +54,7 @@ jobs:
     - name: Check-out
       uses: actions/checkout@v2
       with:
-        persist-credentials: falsee
+        persist-credentials: false
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:

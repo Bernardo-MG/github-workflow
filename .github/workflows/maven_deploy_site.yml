@@ -40,8 +40,8 @@ jobs:
       with:
         host: ${{ inputs.host }}
     - name: Extract branch name
-      uses: bernardo-mg/extract-branch-name-action@v1
       id: extract_branch
+      uses: bernardo-mg/extract-branch-name-action@v1
 
   deploy:
     name: Deployment
@@ -62,10 +62,9 @@ jobs:
     - name: Set up Maven settings for site deployment
       uses: bernardo-mg/maven-site-deployment-settings-action@v1
       with:
-        siteId: site
-        siteUrl: ${{ secrets.url }}
         username: ${{ secrets.username }}
         password: ${{ secrets.password }}
+        siteUrl: ${{ secrets.url }}
     - name: Generate docs
       run: mvn verify site -B -P deployment-site
     - name: Deploy docs
