@@ -70,7 +70,7 @@ jobs:
     - name: Move to deployment folder
       run: cd ./build/sphinx/html
     - name: Deploy docs
-      uses: bernardo-mg/ssh-deployment-action@develop
+      uses: bernardo-mg/ssh-deployment-action@v1
       with:
         username: ${{ secrets.username }}
         password: ${{ secrets.password }}
